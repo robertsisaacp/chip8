@@ -28,30 +28,33 @@ typedef unsigned char BYTE;
 BYTE screenData[SCREEN_HEIGHT][SCREEN_WIDTH][3];
 void setupTexture();
 
+
 int main(int argc, char **argv)
 {
+    // load game
+    if(localChip8.loadGame(PATH)){
+        cout << "Loaded " << PATH << " successfully." << endl;
+    }
 
-    localChip8.loadGame(PATH);
-
-    // Setup OpenGL
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-
-    glutInitWindowSize(display_width, display_height);
-    glutInitWindowPosition(320, 320);
-    glutCreateWindow("chip8");
-
-    glutDisplayFunc(display);
-    glutIdleFunc(display);
-    glutReshapeFunc(reshape_window);
-    glutKeyboardFunc(keypadboardDown);
-    glutKeyboardUpFunc(keypadboardUp);
-
+//    // Setup OpenGL
+//    glutInit(&argc, argv);
+//    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+//
+//    glutInitWindowSize(display_width, display_height);
+//    glutInitWindowPosition(320, 320);
+//    glutCreateWindow("chip8");
+//
+//    glutDisplayFunc(display);
+//    glutIdleFunc(display);
+//    glutReshapeFunc(reshape_window);
+//    glutKeyboardFunc(keypadboardDown);
+//    glutKeyboardUpFunc(keypadboardUp);
+//
 //#ifdef DRAWWITHTEXTURE
 //    setupTexture();
 //#endif
-
-    glutMainLoop();
+//
+//    glutMainLoop();
 
     return 0;
 }

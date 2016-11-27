@@ -11,13 +11,31 @@
 
 class chip8 {
 public:
-    void initialize();
-    void loadGame(std::string);
+    chip8(){}
+    ~chip8(){}
+
+    bool loadGame(std::string);
     void emulateCycle();
     void decode(unsigned short);
     void setKeypad();
 
     bool drawFlag;
+
+    /* The graphics system: The chip 8 has one instruction that
+     * draws sprite to the screen. Drawing is done in XOR mode
+     * and if a pixel is turned off as a result of drawing, the
+     * VF register is set. This is used for collision detection.
+     * The graphics of the Chip 8 are black and white and the screen
+     * has a total of 2048 pixels (64 x 32). This can easily be
+     * implemented using an array that hold the pixel state (1 or 0) */
+    unsigned char gfx[64 * 32];
+
+    /* Chip 8 has hexadecimal-based keypad (0x0-0xf)
+     * array keypad[16] to store current state */
+    unsigned char keypad[16];
+
+private:
+    void initialize();
     /* 35 opcodes */
     unsigned short opcode;
 
@@ -37,17 +55,6 @@ public:
     unsigned short programCount;
 
 
-    /* The graphics system: The chip 8 has one instruction that
-     * draws sprite to the screen. Drawing is done in XOR mode
-     * and if a pixel is turned off as a result of drawing, the
-     * VF register is set. This is used for collision detection.
-     * The graphics of the Chip 8 are black and white and the screen
-     * has a total of 2048 pixels (64 x 32). This can easily be
-     * implemented using an array that hold the pixel state (1 or 0) */
-
-    static const int WIDTH = 64, HEIGHT = 32;
-    unsigned char gfx[HEIGHT * WIDTH];
-
     /* Interrupts and hardware registers. The Chip 8 has none,
      * but there are two timer registers that count at 60 Hz.
      * When set above zero they will count down to zero. */
@@ -58,10 +65,6 @@ public:
      * which level of stack used */
     unsigned short stack[16];
     unsigned short stackPointer;
-
-    /* Chip 8 has hexadecimal-based keypad (0x0-0xf)
-     * array keypad[16] to store current state */
-    unsigned char keypad[16];
 
     /* This is the Chip 8 font set. Each number or
      * character is 4 pixels wide and 5 pixel high */
